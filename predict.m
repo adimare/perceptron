@@ -1,12 +1,13 @@
-% Predicts a result for input based on unrolledNeuralNetwork
-% layerSizes is a vector that determines the size of each layer (including the input and output layers) without taking into consideration the bias for non-output layers
-function p = predict(input, unrolledNeuralNetwork, layerSizes)
+% Predicts a result for input based on neuralNetwork
+% layerSizes is a vector that determines the size of each layer (including the input and output layers) 
+% without taking into consideration the bias for non-output layer
+function p = predict(input, neuralNetwork, layerSizes)
 
   start = 1;
   for i=1:length(layerSizes)-1
-    % Unroll Theta for the current layer
+    % Reshape Theta for the current layer
     finish = start - 1 + layerSizes(i+1) * (layerSizes(i) + 1);
-    Theta = reshape(unrolledNeuralNetwork(start:finish), ...
+    Theta = reshape(neuralNetwork(start:finish), ...
               layerSizes(i+1), (layerSizes(i) + 1));
     start = finish+1;
 
