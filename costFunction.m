@@ -1,31 +1,48 @@
 function J = costFunction(neuralNetwork, layerSizes, X, y, lambda)
-  % Init Input
-  Input = X;
-
-  % Init 
-  m = size(X, 1);
+  % Init some useful values
+  m           = size(X, 1);
+  numLayers   = length(layerSizes);
+  costs       = 0;
+  reg_costs   = 0;
+  Identity    = eye(layerSizes(length(layerSizes)));
+  Thetas      = cell(length(layerSizes)-1, 1);
+  ThetasGrad  = cell(length(layerSizes)-1, 1);
+  Activations = cell(length(layerSizes), 1);
+  Activations{1} = X;
 
   start = 1;
   for i=1:length(layerSizes)-1
     % Reshape Theta for the current layer
     finish = start - 1 + layerSizes(i+1) * (layerSizes(i) + 1);
-    Theta = reshape(neuralNetwork(start:finish), ...
+    Thetas{i} = reshape(neuralNetwork(start:finish), ...
               layerSizes(i+1), (layerSizes(i) + 1));
+    ThetasGrad{i} = zeros(size(Thetas{i}));
     start = finish+1;
 
-    % Add intercept terms to Input
-    Input = [ones(size(Input,1), 1) Input];
+    % Setup Input by adding intercept terms to current Activations
+    Input = [ones(size(Activations{i},1), 1) Activations{i}];
 
-    % Compute input for the next layer
-    Input = sigmoid(Input * Theta');
+    % Compute activations for the next layer
+    Activations{i+1} = sigmoid(Input * Thetas{i}');
+
+    % Compute regularization cost adjustment
+    reg_costs += sum(sum(Thetas{i}(:, 2:end) .^ 2));
   end
 
-  Identity = eye(layerSizes(length(layerSizes)));
-  J = 0
+  % Compute cost based on output layer
   for i=1:m
-    row = -(Identity(y(i),:)) .* log(Input(i,:)) - (1 - Identity(y(i),:)) .* log(1 - Input(i,:));
-    J += sum(row);
-  end
+    row = -(Identity(y(i),:)) .* log(Activations{numLayers}(i,:)) - (1 - Identity(y(i),:)) .* log(1 - Activations{numLayers}(i,:));
+    costs += sum(row);
 
-  J = J/m;
+    % Backpropagation
+    delta = (Activations{numLayers}(i,:) - (Identity(y(i),:)))';
+    for j=numLayers-1:-1:2
+      Input = [ones(size(Activations{j}(i, :),1), 1) Activations{j}(i, :)];
+      ThetasGrad{j} += delta * Input;
+      delta = (Thetas{j}' * delta) .* (Input .* (1-Input))';
+    end
+
+  end
+  J = (costs/m) + (lambda/(2*m) * reg_costs);
+
 end
