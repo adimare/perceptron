@@ -1,44 +1,23 @@
+% Init 
 layerSizes = [400 25 10];
+lambda = 1;
+maxIterations = 50;
 
-% Initialize an unrolled neural network
+% Initialize neural network with random weights
 fprintf('\nInitializing Neural Network... \n');
 neuralNetwork = initNeuralNetwork(layerSizes);
 
-% Load training data
+% Load training data from file (sets X and y)
 fprintf('\nLoading training data... \n');
 load('ex4data1.mat');
 
-options = optimset('MaxIter', 50);
-lambda = 1;
-% Create "short hand" for the cost function to be minimized
-minCostFunction = @(p) costFunction(p, layerSizes, X, y, lambda);
+% Train neural network
+fprintf('\nTraining neural network... \n');
+neuralNetwork = train(neuralNetwork, layerSizes, X, y, lambda, maxIterations);
 
-[neuralNetwork, cost] = fmincg(minCostFunction, neuralNetwork, options);
-
+% Test trained neural network
 predictions = zeros(size(X,1), 1);
 for i=1:size(X,1)
-  predictions(i) = predict(neuralNetwork, X(i,:), layerSizes);
+  predictions(i) = predict(neuralNetwork, layerSizes, X(i,:));
 end
-
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(predictions == y)) * 100);
-
-if test==1
-  load('ex4weights.mat');
-  % Unroll parameters 
-  neuralNetwork = [Theta1(:) ; Theta2(:)];
-  lambda = 0;
-  J = costFunction(neuralNetwork, layerSizes, X, y, lambda);
-
-  fprintf(['Cost at parameters (loaded from ex4weights): %f '...
-          '\n(this value should be about 0.287629)\n'], J);
-
-  lambda = 1;
-  J = costFunction(neuralNetwork, layerSizes, X, y, lambda);
-
-  fprintf(['Cost at parameters (loaded from ex4weights): %f '...
-         '\n(this value should be about 0.383770)\n'], J);
-
-  checkNNGradients;
-else
-  
-end
