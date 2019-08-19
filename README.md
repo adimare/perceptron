@@ -14,7 +14,7 @@ neuralNetwork = initNeuralNetwork([400 16 16 10]);
 ```
 
 # train
-Implements the fmincg algorithm to trains a neural network using the training data given by X and y.
+Implements the fmincg algorithm to train a neural network using the training data given by X and y.
 
 |Param|Type|Values|
 |---|---|---|
