@@ -8,8 +8,8 @@ Used to initialize a neural network with random weights.
 |---|---|---|
 |**layerSizes**|*Required* array|Determines the amount of layers in the neural network and the size of each layer. The first number in the array corresponds to the size of the input layer, the last number corresponds to the size of the output layer, and all numbers in between determine the sizes of the hidden layers|
 
+Initialize a neural network with 400 neurons in the input layer, two hidden layers of 16 neurons, and an output layer of 10 neurons.
 ```console
-% Initialize a neural network with 400 neurons in the input layer, two hidden layers of 16 neurons, and an output layer of 10 neurons.
 neuralNetwork = initNeuralNetwork([400 16 16 10]);
 ```
 
@@ -25,6 +25,7 @@ Implements the fmincg algorithm to trains a neural network using the training da
 |**lambda**|*Optional* integer|Used for regularization to avoid overfitting. If the neural network performs too well on the training set but not so much on validation/test sets, the lambda value should be increased. Defaults to 0.|
 |**maxIterations**|*Optional* integer|Determines the max amount of times the backpropagation algorithm is executed to update the neural network's weights. Defaults to 50.|
 
+Train a randomly initialized neural network based on training set X and labels y using 1 as the lambda for regularization for a maximum of 100 iterartions.
 ```console
 neuralNetwork = train(neuralNetwork, [400 16 16 10], X, y, 1, 100);
 ```
@@ -36,6 +37,7 @@ Executes forward propagation on a neural network to produce a prediction based o
 |**layerSizes**|*Required* array|Determines the amount of layers in the neural network and the size of each layer. The first number in the array corresponds to the size of the input layer, the last number corresponds to the size of the output layer, and all numbers in between determine the sizes of the hidden layers|
 |**input**|*Required* array|The features for an unlabeled example.|
 
+Perform forward propagation to output a prediction for an unlabeled set of features.
 ```console
 result = predict(neuralNetwork, [400 16 16 10], TestSet(12,:));
 ```
