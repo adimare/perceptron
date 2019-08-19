@@ -22,24 +22,23 @@ end
 
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(predictions == y)) * 100);
 
-% lambda = 0;
-% [J grad] = costFunction(neuralNetwork, layerSizes, X, y, lambda);
+if test==1
+  load('ex4weights.mat');
+  % Unroll parameters 
+  neuralNetwork = [Theta1(:) ; Theta2(:)];
+  lambda = 0;
+  J = costFunction(neuralNetwork, layerSizes, X, y, lambda);
 
-% load('ex4weights.mat');
+  fprintf(['Cost at parameters (loaded from ex4weights): %f '...
+          '\n(this value should be about 0.287629)\n'], J);
 
-% input = [1 2 3];
-% predict(input, neuralNetwork, layerSizes);
+  lambda = 1;
+  J = costFunction(neuralNetwork, layerSizes, X, y, lambda);
 
-% Unroll parameters 
-% neuralNetwork = [Theta1(:) ; Theta2(:)];
-% lambda = 0;
-% J = costFunction(neuralNetwork, layerSizes, X, y, lambda);
+  fprintf(['Cost at parameters (loaded from ex4weights): %f '...
+         '\n(this value should be about 0.383770)\n'], J);
 
-% fprintf(['Cost at parameters (loaded from ex4weights): %f '...
-%         '\n(this value should be about 0.287629)\n'], J);
-
-% lambda = 1;
-% J = costFunction(neuralNetwork, layerSizes, X, y, lambda);
-
-% fprintf(['Cost at parameters (loaded from ex4weights): %f '...
-%        '\n(this value should be about 0.383770)\n'], J);
+  checkNNGradients;
+else
+  
+end

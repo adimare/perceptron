@@ -23,7 +23,7 @@ function [J grad] = costFunction(neuralNetwork, layerSizes, X, y, lambda)
     % Setup Input by adding intercept terms to current Activations
     Input = [ones(size(Activations{i},1), 1) Activations{i}];
 
-    % Compute activations for the next layer
+    % Set activations for the next layer
     Activations{i+1} = sigmoid(Input * Thetas{i}');
 
     % Compute regularization cost adjustment
@@ -37,10 +37,12 @@ function [J grad] = costFunction(neuralNetwork, layerSizes, X, y, lambda)
 
     % Backpropagation
     delta = (Activations{numLayers}(i,:) - (Identity(y(i),:)))';
-    for j=numLayers-1:-1:2
-      Input = [ones(size(Activations{j}(i, :),1), 1) Activations{j}(i, :)];
+
+    for j=numLayers-1:-1:1
+      Input = [1 Activations{j}(i, :)];
       ThetasGrad{j} += delta * Input;
       delta = (Thetas{j}' * delta) .* (Input .* (1-Input))';
+      delta = delta(2:end);
     end
   end
 
