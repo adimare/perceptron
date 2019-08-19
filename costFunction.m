@@ -1,4 +1,4 @@
-function J = costFunction(neuralNetwork, layerSizes, X, y, lambda)
+function [J grad] = costFunction(neuralNetwork, layerSizes, X, y, lambda)
   % Init some useful values
   m           = size(X, 1);
   numLayers   = length(layerSizes);
@@ -8,6 +8,7 @@ function J = costFunction(neuralNetwork, layerSizes, X, y, lambda)
   Thetas      = cell(length(layerSizes)-1, 1);
   ThetasGrad  = cell(length(layerSizes)-1, 1);
   Activations = cell(length(layerSizes), 1);
+  grad        = [];
   Activations{1} = X;
 
   start = 1;
@@ -41,8 +42,17 @@ function J = costFunction(neuralNetwork, layerSizes, X, y, lambda)
       ThetasGrad{j} += delta * Input;
       delta = (Thetas{j}' * delta) .* (Input .* (1-Input))';
     end
-
   end
+
+  % Compute gradients for Theta
+  for i=1:numLayers-1
+    ThetaReg = Thetas{i};
+    ThetaReg(:, 1) = 0;
+    grad = [grad ; (ThetasGrad{i} + lambda * ThetaReg)(:)];
+  end
+
+  % Finalize computation of J and grad
   J = (costs/m) + (lambda/(2*m) * reg_costs);
+  grad = grad / m;
 
 end

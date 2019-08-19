@@ -1,7 +1,7 @@
 % Predicts a result for input based on neuralNetwork
 % layerSizes is a vector that determines the size of each layer (including the input and output layers) 
 % without taking into consideration the bias for non-output layer
-function p = predict(input, neuralNetwork, layerSizes)
+function p = predict(neuralNetwork, input, layerSizes)
 
   start = 1;
   for i=1:length(layerSizes)-1
