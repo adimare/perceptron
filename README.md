@@ -31,6 +31,7 @@ neuralNetwork = train(neuralNetwork, [400 16 16 10], X, y, 1, 100);
 ```
 # predict
 Executes forward propagation on a neural network to produce a prediction based on a test set.
+
 |Param|Type|Values|
 |---|---|---|
 |**neuralNetwork**|*Required* array|An unrolled neural network's theta values.|
