@@ -6,8 +6,8 @@ neuralNetwork = initNeuralNetwork(layerSizes);
 
 % Load training data
 fprintf('\nLoading training data... \n');
-load('ex4data1.mat');
-load('ex4weights.mat');
+load('trainingSet.mat');
+load('debugWeights.mat');
 % Unroll parameters 
 neuralNetwork = [Theta1(:) ; Theta2(:)];
 lambda = 0;

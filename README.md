@@ -55,7 +55,7 @@ neuralNetwork = initNeuralNetwork(layerSizes);
 
 % Load training data from file (sets X and y)
 fprintf('\nLoading training data... \n');
-load('ex4data1.mat');
+load('trainingSet.mat');
 
 % Train neural network
 fprintf('\nTraining neural network... \n');
