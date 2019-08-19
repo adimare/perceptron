@@ -42,7 +42,7 @@ Perform forward propagation to output a prediction for an unlabeled set of featu
 ```console
 result = predict(neuralNetwork, [400 16 16 10], TestSet(12,:));
 ```
-#usage example
+# Usage example
 ```console
 % Init 
 layerSizes = [400 25 10];
